@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ARSH TECH SOLUTIONS</title>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  background:linear-gradient(to right, rgba(194, 229, 156, 0.8), rgba(100, 179, 244, 0.8), rgba(255, 192, 203, 0.8)),
+    url('your-image.jpg') no-repeat center center fixed; 
+  
+  background-size: cover;
+  margin: 5px;
+  padding: 5px;
+}
+
+
+    .container, .profile, .branch-page {
+      display:none;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 20px;
+      background:silver;
+      border-radius: 15px;
+      box-shadow: 0 0 30px ;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color:darkgreen;
+    }
+
+    input, button {
+      width: 90%;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color:red;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #27ae60;
+    }
+
+    .link-btn {
+      background-color:blue;
+    }
+
+    .link-btn:hover {
+      background-color: #27ae60;
+    }
+
+    .branches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .branch {
+      padding: 15px;
+      background-color:blue;
+      text-align: center;
+      border-radius: 10px;
+      font-weight: bold;
+      color:white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .branch:hover {
+      background-color:lightgreen;
+      color:teal;
+    }
+
+    .pdf-links a {
+      display: block;
+      background:orange;
+      color:black;
+      text-decoration: none;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
+    .pdf-links a:hover {
+      background-color:pink;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Section -->
+  <div class="container" id="login-container">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+    <button class="link-btn" onclick="showEditForm()">Edit Username/Password</button>
+
+    <div id="edit-form" style="display:none;">
+      <input type="text" id="emailOrMobile" placeholder="Enter Email or Mobile">
+      <input type="text" id="newUsername" placeholder="New Username">
+      <input type="password" id="newPassword" placeholder="New Password">
+      <button onclick="updateCredentials()">Update</button>
+    </div>
+  </div>
+
+  <!-- Profile Page -->
+  <div class="profile" id="profile-page">
+    <h1>Welcome to Engineering Portal</h1>
+    <div class="branches">
+      <div class="branch" onclick="showBranch('CSE')">Computer Science</div>
+      <div class="branch" onclick="showBranch('ECE')">Electronics & Communication</div>
+      <div class="branch" onclick="showBranch('EEE')">Electrical & Electronics</div>
+      <div class="branch" onclick="showBranch('MECH')">Mechanical</div>
+      <div class="branch" onclick="showBranch('CIVIL')">Civil</div>
+    </div>
+  </div>
+
+  <!-- Branch Subjects Page -->
+  <div class="branch-page" id="branch-page">
+    <h1 id="branch-title"></h1>
+    <div class="pdf-links" id="pdf-links">
+      <!-- PDF links will appear here -->
+    </div>
+    <button class="link-btn" onclick="goBack()">← Back to Branches</button>
+  </div>
+
+  <script>
+    // Initialize default credentials
+    if (!localStorage.getItem("username")) {
+      localStorage.setItem("username", "admin");
+      localStorage.setItem("password", "1234");
+      localStorage.setItem("email", "admin@example.com");
+      localStorage.setItem("mobile", "955073082");
+    }
+
+    // Show login on load
+    document.getElementById("login-container").style.display = "block";
+
+    function login() {
+      const u = document.getElementById("username").value;
+      const p = document.getElementById("password").value;
+      if (u === localStorage.getItem("username") && p === localStorage.getItem("password")) {
+        document.getElementById("login-container").style.display = "none";
+        document.getElementById("profile-page").style.display = "block";
+      } else {
+        alert("Invalid username or password");
+      }
+    }
+
+    function showEditForm() {
+      document.getElementById("edit-form").style.display = "block";
+    }
+
+    function updateCredentials() {
+      const contact = document.getElementById("emailOrMobile").value;
+      const newU = document.getElementById("newUsername").value;
+      const newP = document.getElementById("newPassword").value;
+      if (contact === localStorage.getItem("email") || contact === localStorage.getItem("mobile")) {
+        localStorage.setItem("username", newU);
+        localStorage.setItem("password", newP);
+        alert("Credentials updated successfully!");
+      } else {
+        alert("Email or mobile does not match our records.");
+      }
+    }
+
+    function showBranch(branch) {
+      const links = {
+        CSE: [{ name: "All Semesters [R15, R19, R20]", url: "https://eceweber65.wixsite.com/engineeringhelper/copy-of-ece-page" }],
+        ECE: [{ name: "All Semesters [R15, R19, R20]", url: "https://eceweber65.wixsite.com/engineeringhelper/services-7" }],
+        EEE: [{ name: "All Semesters [R15, R19, R20]", url: "https://eceweber65.wixsite.com/engineeringhelper/copy-of-cse-page" }],
+        MECH: [{ name: "All Semesters [R15, R19, R20]", url: "https://eceweber65.wixsite.com/engineeringhelper/copy-of-eee-page" }],
+        CIVIL: [{ name: "All Semesters [R15, R19, R20]", url: "https://eceweber65.wixsite.com/engineeringhelper/copy-of-mech-page" }]
+      };
+
+      document.getElementById("profile-page").style.display = "none";
+      document.getElementById("branch-page").style.display = "block";
+
+      document.getElementById("branch-title").innerText = branch + " Subjects";
+      const container = document.getElementById("pdf-links");
+      container.innerHTML = "";
+
+      if (links[branch]) {
+        links[branch].forEach(link => {
+          container.innerHTML += `<a href="${link.url}" target="_blank">${link.name}</a>`;
+        });
+      } else {
+        container.innerHTML = "<p>No PDFs available.</p>";
+      }
+    }
+
+    function goBack() {
+      document.getElementById("branch-page").style.display = "none";
+      document.getElementById("profile-page").style.display = "block";
+    }
+  </script>
+</body>
+</html>
